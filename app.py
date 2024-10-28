@@ -6,6 +6,7 @@ import jwt
 import datetime
 from functools import wraps
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 
 app = Flask(__name__)
@@ -19,6 +20,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{database_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'your_secret_key'
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 # Datenbankmodell für Benutzer (User)
 class User(db.Model):
@@ -59,6 +61,8 @@ def token_required(f):
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
+    if User.query.filter_by(username=data['username']).first():
+        return jsonify({'message': 'User already exists'}), 400
     hashed_password = generate_password_hash(data['password'], method='sha256')
     new_user = User(username=data['username'], password=hashed_password)
     db.session.add(new_user)
@@ -183,4 +187,3 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(host='0.0.0.0', port=5000, debug=True)
-
