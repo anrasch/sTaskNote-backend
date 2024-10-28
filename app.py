@@ -10,7 +10,7 @@ from flask_migrate import Migrate
 
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "https://anrasch.github.io/sTaskNote-frontend/"}})
 
 # Sicherstellen, dass das Verzeichnis für die Datenbank existiert
 os.makedirs(os.path.dirname('database/sTaskNote.db'), exist_ok=True)
