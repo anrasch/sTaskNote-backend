@@ -1,0 +1,13 @@
+# Virtuelle Umgebung
+venv/
+
+# Datenbanken
+database/
+*.db
+
+# Byte-compiled / optimierte Dateien
+__pycache__/
+*.py[cod]
+
+# Environment-Dateien
+.env
