@@ -5,8 +5,11 @@ import os
 import jwt
 import datetime
 from functools import wraps
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 # Sicherstellen, dass das Verzeichnis für die Datenbank existiert
 os.makedirs(os.path.dirname('database/sTaskNote.db'), exist_ok=True)
